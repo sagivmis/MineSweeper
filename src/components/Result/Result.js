@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Result.css";
+import globalContext from "../../context/globalContext";
 
-const Result = ({ win }) => {
+const Result = () => {
     const [resClass, setResClass] = useState("result");
-
+    const {
+        win: [win, setWin],
+    } = useContext(globalContext);
     useEffect(() => {
         win ? setResClass("result win") : setResClass("result lose");
     }, []);

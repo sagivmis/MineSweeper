@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Row from "../Row/Row";
 import "./Board.css";
 import {
@@ -7,13 +7,19 @@ import {
     valueAdjacentCount,
 } from "../../helper/helper";
 import Button from "../Button/Button";
+import globalContext from "../../context/globalContext";
 
-const Board = ({ setNumCellsClicked, setWin, setShowRes }) => {
+const Board = () => {
     const [mapSize] = useState(10);
     const [bombCount, setBombCount] = useState(10);
     const [board, setBoard] = useState();
     const [cellsClicked, setCellsClicked] = useState({});
     const [safeCells] = useState(mapSize * mapSize - bombCount);
+    const {
+        numCellsClicked: [numCellsClicked, setNumCellsClicked],
+        win: [win, setWin],
+        setShowRes,
+    } = useContext(globalContext);
 
     const handleCellClick = (id) => {
         if (!cellsClicked[id]) {
