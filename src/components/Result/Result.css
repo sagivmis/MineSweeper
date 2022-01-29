@@ -20,3 +20,15 @@
 .lose {
     background-color: rgba(222, 1, 45, 0.5);
 }
+
+@media only screen and (max-width: 1300px) {
+    .result-text {
+        left: 23.5%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .result-text {
+        left: 0%;
+    }
+}

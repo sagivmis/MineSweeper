@@ -51,6 +51,7 @@ const Button = ({
     if (size)
         style = {
             color: fontColor,
+            backgroundColor: color,
             padding: padding ? padding : "",
             paddingRight: paddingSide ? paddingSide : "",
             paddingLeft: paddingSide ? paddingSide : "",

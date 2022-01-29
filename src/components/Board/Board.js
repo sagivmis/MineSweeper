@@ -71,6 +71,7 @@ const Board = ({ setNumCellsClicked, setWin, setShowRes }) => {
                     onClick={() => {
                         setBombCount(25);
                     }}
+                    color='#282c34'
                 />
                 <Button
                     content={"NORMAL"}
@@ -78,6 +79,7 @@ const Board = ({ setNumCellsClicked, setWin, setShowRes }) => {
                     onClick={() => {
                         setBombCount(10);
                     }}
+                    color='#3e4451'
                 />
                 <Button
                     content={"EASY"}
@@ -85,6 +87,7 @@ const Board = ({ setNumCellsClicked, setWin, setShowRes }) => {
                     onClick={() => {
                         setBombCount(5);
                     }}
+                    color='#545d6e'
                 />
             </div>
         </div>
