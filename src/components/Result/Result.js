@@ -5,7 +5,7 @@ import globalContext from "../../context/globalContext";
 const Result = () => {
     const [resClass, setResClass] = useState("result");
     const {
-        win: [win, setWin],
+        win: [win],
     } = useContext(globalContext);
     useEffect(() => {
         win ? setResClass("result win") : setResClass("result lose");

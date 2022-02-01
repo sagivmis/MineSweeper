@@ -47,26 +47,22 @@ const Button = ({
             borderRadius = "5px";
             zIndex = 1000;
     }
-    let style;
-    if (size)
-        style = {
-            color: fontColor,
-            backgroundColor: color,
-            padding: padding ? padding : "",
-            paddingRight: paddingSide ? paddingSide : "",
-            paddingLeft: paddingSide ? paddingSide : "",
-            margin: margin,
-            fontSize: fontSize,
-            fontWeight: fontWeight,
-            borderRadius: borderRadius,
-            zIndex: zIndex,
-        };
+    const style = size
+        ? {
+              color: fontColor,
+              backgroundColor: color,
+              padding: padding ? padding : "",
+              paddingRight: paddingSide ? paddingSide : "",
+              paddingLeft: paddingSide ? paddingSide : "",
+              margin: margin,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              borderRadius: borderRadius,
+              zIndex: zIndex,
+          }
+        : null;
     return (
-        <button
-            onClick={onClick}
-            className={`btn ${classN}`}
-            style={style ? style : null}
-        >
+        <button onClick={onClick} className={`btn ${classN}`} style={style}>
             {content}
         </button>
     );

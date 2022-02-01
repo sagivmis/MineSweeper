@@ -1,0 +1,22 @@
+.info {
+    position: absolute;
+
+    width: 35%;
+    height: 10vh;
+    line-height: 10vh;
+    border-radius: 5px;
+
+    background-color: aliceblue;
+    left: -43%;
+    top: 10%;
+    font-family: "Roboto", sans-serif;
+}
+@media only screen and (max-width: 1300px) {
+    .info {
+        top: -21.2%;
+        left: 18.5%;
+        width: 63.5%;
+        height: 5vh;
+        line-height: 5vh;
+    }
+}

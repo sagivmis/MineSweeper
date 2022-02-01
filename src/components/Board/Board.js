@@ -1,23 +1,33 @@
 import React, { useState, useEffect, useContext } from "react";
+
 import Row from "../Row/Row";
+import Button from "../Button/Button";
+import globalContext from "../../context/globalContext";
+
 import "./Board.css";
+
 import {
     nestedArray,
     populateNestedArray,
     valueAdjacentCount,
 } from "../../helper/helper";
-import Button from "../Button/Button";
-import globalContext from "../../context/globalContext";
+import {
+    MAPSIZE,
+    BOMBCOUNT_EASY,
+    BOMBCOUNT_NORMAL,
+    BOMBCOUNT_HARD,
+} from "./cfg";
+import Info from "../Info/Info";
 
 const Board = () => {
-    const [mapSize] = useState(10);
-    const [bombCount, setBombCount] = useState(10);
+    const [mapSize] = useState(MAPSIZE);
+    const [bombCount, setBombCount] = useState(BOMBCOUNT_NORMAL);
     const [board, setBoard] = useState();
     const [cellsClicked, setCellsClicked] = useState({});
     const [safeCells] = useState(mapSize * mapSize - bombCount);
     const {
-        numCellsClicked: [numCellsClicked, setNumCellsClicked],
-        win: [win, setWin],
+        numCellsClicked: [, setNumCellsClicked],
+        win: [, setWin],
         setShowRes,
     } = useContext(globalContext);
 
@@ -40,7 +50,6 @@ const Board = () => {
                 "*"
             )
         );
-        console.log(board);
     }, [bombCount]);
 
     useEffect(() => {
@@ -59,6 +68,7 @@ const Board = () => {
 
     return (
         <div className='board'>
+            <Info bombCount={bombCount} />
             {board &&
                 board.map((row, index) => {
                     return (
@@ -75,7 +85,7 @@ const Board = () => {
                     content={"HARD"}
                     size={"small"}
                     onClick={() => {
-                        setBombCount(25);
+                        setBombCount(BOMBCOUNT_HARD);
                     }}
                     color='#282c34'
                 />
@@ -83,7 +93,7 @@ const Board = () => {
                     content={"NORMAL"}
                     size={"small"}
                     onClick={() => {
-                        setBombCount(10);
+                        setBombCount(BOMBCOUNT_NORMAL);
                     }}
                     color='#3e4451'
                 />
@@ -91,7 +101,7 @@ const Board = () => {
                     content={"EASY"}
                     size={"small"}
                     onClick={() => {
-                        setBombCount(5);
+                        setBombCount(BOMBCOUNT_EASY);
                     }}
                     color='#545d6e'
                 />

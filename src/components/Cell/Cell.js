@@ -19,7 +19,6 @@ const Cell = ({ rowNumber, columnNumber, value, cellClicked }) => {
     const handleClick = ({ target }) => {
         if (flag) return;
         setCellClass("cell clicked");
-        // target.style.backgroundColor = "#7f8c8d";
         if (!flag) setClicked(true);
         if (!clicked) cellClicked(target.id);
         if (!endMineSweeperGame) {
@@ -31,8 +30,8 @@ const Cell = ({ rowNumber, columnNumber, value, cellClicked }) => {
 
     const clickAdjacentCells = (target, row, col) => {
         target.id = `${row}_${col}_`;
-        let rowList = [row - 1, row, row + 1];
-        let colList = [col - 1, col, col + 1];
+        const rowList = [row - 1, row, row + 1];
+        const colList = [col - 1, col, col + 1];
         for (let i of rowList) {
             for (let j of colList) {
                 if (document.getElementById(`${i}_${j}`))
@@ -45,8 +44,8 @@ const Cell = ({ rowNumber, columnNumber, value, cellClicked }) => {
     const endGame = (target) => {
         endMineSweeperGame = true;
         target.style.backgroundColor = "black";
-        let cols = target.parentElement.children.length;
-        let rows = target.parentElement.parentElement.children.length;
+        const cols = target.parentElement.children.length;
+        const rows = target.parentElement.parentElement.children.length;
 
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
