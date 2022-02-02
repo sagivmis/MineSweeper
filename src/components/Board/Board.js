@@ -24,7 +24,7 @@ const Board = () => {
     const [bombCount, setBombCount] = useState(BOMBCOUNT_NORMAL);
     const [board, setBoard] = useState();
     const [cellsClicked, setCellsClicked] = useState({});
-    const [safeCells] = useState(mapSize * mapSize - bombCount);
+    const [safeCells, setSafeCells] = useState(mapSize * mapSize - bombCount);
     const {
         numCellsClicked: [, setNumCellsClicked],
         win: [, setWin],
@@ -86,6 +86,7 @@ const Board = () => {
                     size={"small"}
                     onClick={() => {
                         setBombCount(BOMBCOUNT_HARD);
+                        setSafeCells(MAPSIZE * MAPSIZE - BOMBCOUNT_HARD);
                     }}
                     color='#282c34'
                 />
@@ -94,6 +95,7 @@ const Board = () => {
                     size={"small"}
                     onClick={() => {
                         setBombCount(BOMBCOUNT_NORMAL);
+                        setSafeCells(MAPSIZE * MAPSIZE - BOMBCOUNT_NORMAL);
                     }}
                     color='#3e4451'
                 />
@@ -102,6 +104,7 @@ const Board = () => {
                     size={"small"}
                     onClick={() => {
                         setBombCount(BOMBCOUNT_EASY);
+                        setSafeCells(MAPSIZE * MAPSIZE - BOMBCOUNT_EASY);
                     }}
                     color='#545d6e'
                 />
