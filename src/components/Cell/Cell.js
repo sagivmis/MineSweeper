@@ -17,21 +17,26 @@ const Cell = ({
   flaggedCells
 }) => {
   const [clicked, setClicked] = useState(false)
-  const [flag, setFlag] = useState("")
+  const [flag, setFlag] = useState(false)
   const [cellClass, setCellClass] = useState("cell")
 
   const handleRightClick = (e) => {
     e.preventDefault()
-    if (!clicked) flag ? unflagged() : flagged()
+    if (!clicked)
+      if (flag) {
+        unflagged()
+      } else {
+        flagged()
+      }
   }
 
   const flagged = () => {
-    setFlag("flag")
+    setFlag(true)
     setFlaggedCells(flaggedCells + 1)
   }
 
   const unflagged = () => {
-    setFlag("")
+    setFlag(false)
     setFlaggedCells(flaggedCells - 1)
   }
 
