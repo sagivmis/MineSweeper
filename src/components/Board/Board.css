@@ -1,42 +1,51 @@
 .board {
-    position: relative;
-    left: 27.5%;
-    top: 10%;
-    display: grid;
-    grid-template-rows: repeat(auto-fit, minmax(5px, 10fr));
-    grid-gap: 2px;
-    width: 40%;
-    padding: 15px;
-    border: 1px solid white;
-    border-radius: 5px;
-    box-shadow: 0px 3px 0px 0px #587ca0;
+  position: relative;
+  left: 27.5%;
+  top: 10%;
+  display: grid;
+  grid-template-rows: repeat(auto-fit, minmax(5px, 10fr));
+  grid-gap: 2px;
+  width: 40%;
+  padding: 15px;
+  border: 1px solid white;
+  border-radius: 5px;
+  box-shadow: 0px 3px 0px 0px #587ca0;
 }
+
 .control {
-    background-color: seashell;
-    position: absolute;
-    bottom: -20%;
-    left: 37.5%;
-    border-radius: 5px;
+  background-color: seashell;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: 2%;
+  /* margin: 2%; */
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  display: flex;
+  gap: 5px;
+  flex-direction: column-reverse;
+  align-content: center;
 }
+
 @media only screen and (max-width: 1300px) {
-    .board {
-        left: 18.5%;
-        width: 60%;
-    }
+  .board {
+    left: 18.5%;
+    width: 60%;
+  }
 }
 
 @media only screen and (max-width: 900px) {
-    .board {
-        left: 0.5%;
-        width: 90%;
-        height: 65vh;
-        grid-gap: 10px;
-    }
-    .control {
-        background-color: seashell;
-        position: absolute;
-        bottom: -20%;
-        left: 25%;
-        border-radius: 5px;
-    }
+  .board {
+    left: 0.5%;
+    width: 90%;
+    height: 65vh;
+    grid-gap: 10px;
+  }
+  .control {
+    background-color: seashell;
+    position: absolute;
+    bottom: -20%;
+    left: 25%;
+    border-radius: 5px;
+  }
 }

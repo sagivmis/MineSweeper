@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useCallback } from "react"
 
 import Row from "../Row/Row"
 import Button from "../Button/Button"
@@ -19,9 +19,9 @@ import {
 } from "./cfg"
 import Info from "../Info/Info"
 
-const Board = () => {
-  const [mapSize] = useState(MAPSIZE)
-  const [bombCount, setBombCount] = useState(BOMBCOUNT_NORMAL)
+const Board = ({ rows, columns, bombs }) => {
+  const [mapSize, setMapSize] = useState(MAPSIZE)
+  const [bombCount, setBombCount] = useState()
   const [board, setBoard] = useState()
   const [cellsClicked, setCellsClicked] = useState({})
   const [safeCells, setSafeCells] = useState(mapSize * mapSize - bombCount)
@@ -30,6 +30,9 @@ const Board = () => {
     win: [, setWin],
     setShowRes
   } = useContext(globalContext)
+
+  const [gameIsReset, setGameIsReset] = useState(false)
+  const [flaggedCells, setFlaggedCells] = useState(0)
 
   const handleCellClick = (id) => {
     if (!cellsClicked[id]) {
@@ -40,14 +43,23 @@ const Board = () => {
   }
 
   const handler = () => {
+    restartGame()
+  }
+
+  const restartGame = useCallback(() => {
     setBoard(
       valueAdjacentCount(
-        populateNestedArray(nestedArray(mapSize, mapSize), "*", bombCount),
+        populateNestedArray(nestedArray(rows, columns), "*", bombs),
         "*"
       )
     )
-  }
-  useEffect(handler, [bombCount])
+    setGameIsReset(true)
+    setTimeout(() => {
+      setGameIsReset(false)
+    }, 1000)
+  }, [bombs, columns, rows])
+
+  useEffect(handler, [rows, columns, bombs, restartGame])
 
   useEffect(() => {
     if (Object.keys(cellsClicked).length < safeCells)
@@ -65,7 +77,9 @@ const Board = () => {
 
   return (
     <div className='board'>
-      <Info bombCount={bombCount} />
+      {board && (
+        <Info bombCount={bombCount} flaggedCells={flaggedCells} bombs={bombs} />
+      )}
       {board &&
         board.map((row, index) => {
           return (
@@ -74,38 +88,21 @@ const Board = () => {
               row={row}
               rowNumber={index}
               handleCellClick={handleCellClick}
+              setShowRes={setShowRes}
+              gameIsReset={gameIsReset}
+              setFlaggedCells={setFlaggedCells}
+              flaggedCells={flaggedCells}
             />
           )
         })}
-      <div className='control'>
-        <Button
-          content={"HARD"}
-          size={"small"}
-          onClick={() => {
-            setBombCount(BOMBCOUNT_HARD)
-            setSafeCells(MAPSIZE * MAPSIZE - BOMBCOUNT_HARD)
-          }}
-          color='#282c34'
-        />
-        <Button
-          content={"NORMAL"}
-          size={"small"}
-          onClick={() => {
-            setBombCount(BOMBCOUNT_NORMAL)
-            setSafeCells(MAPSIZE * MAPSIZE - BOMBCOUNT_NORMAL)
-          }}
-          color='#3e4451'
-        />
-        <Button
-          content={"EASY"}
-          size={"small"}
-          onClick={() => {
-            setBombCount(BOMBCOUNT_EASY)
-            setSafeCells(MAPSIZE * MAPSIZE - BOMBCOUNT_EASY)
-          }}
-          color='#545d6e'
-        />
-      </div>
+      <Button
+        content={"RESTART"}
+        size={"small"}
+        onClick={() => {
+          restartGame()
+        }}
+        color='#282c34'
+      />
     </div>
   )
 }

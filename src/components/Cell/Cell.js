@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useState } from "react/cjs/react.development"
 import "./Cell.css"
 import { IoFlagSharp } from "react-icons/io5"
@@ -6,14 +6,33 @@ import { FaBomb } from "react-icons/fa"
 
 let endMineSweeperGame = false
 
-const Cell = ({ rowNumber, columnNumber, value, cellClicked }) => {
+const Cell = ({
+  rowNumber,
+  columnNumber,
+  value,
+  cellClicked,
+  setShowRes,
+  gameIsReset,
+  setFlaggedCells,
+  flaggedCells
+}) => {
   const [clicked, setClicked] = useState(false)
   const [flag, setFlag] = useState("")
   const [cellClass, setCellClass] = useState("cell")
 
   const handleRightClick = (e) => {
     e.preventDefault()
-    if (!clicked) flag ? setFlag("") : setFlag("flag")
+    if (!clicked) flag ? unflagged() : flagged()
+  }
+
+  const flagged = () => {
+    setFlag("flag")
+    setFlaggedCells(flaggedCells + 1)
+  }
+
+  const unflagged = () => {
+    setFlag("")
+    setFlaggedCells(flaggedCells - 1)
   }
 
   const handleClick = ({ target }) => {
@@ -56,7 +75,15 @@ const Cell = ({ rowNumber, columnNumber, value, cellClicked }) => {
         }
       }
     }
+    setShowRes(true)
   }
+
+  useEffect(() => {
+    if (gameIsReset === true) {
+      setClicked(false)
+      setCellClass("cell")
+    }
+  }, [gameIsReset])
 
   return (
     <div
