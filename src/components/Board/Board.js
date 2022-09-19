@@ -11,20 +11,13 @@ import {
   populateNestedArray,
   valueAdjacentCount
 } from "../../helper/helper"
-import {
-  MAPSIZE,
-  BOMBCOUNT_EASY,
-  BOMBCOUNT_NORMAL,
-  BOMBCOUNT_HARD
-} from "./cfg"
+
 import Info from "../Info/Info"
 
 const Board = ({ rows, columns, bombs }) => {
-  const [mapSize, setMapSize] = useState(MAPSIZE)
-  const [bombCount, setBombCount] = useState()
   const [board, setBoard] = useState()
   const [cellsClicked, setCellsClicked] = useState({})
-  const [safeCells, setSafeCells] = useState(mapSize * mapSize - bombCount)
+  const [safeCells, setSafeCells] = useState(rows * columns - bombs)
   const {
     numCellsClicked: [, setNumCellsClicked],
     win: [, setWin],
@@ -70,15 +63,23 @@ const Board = ({ rows, columns, bombs }) => {
       setShowRes(true)
       setWin(true)
     }
-    if (Object.keys(cellsClicked).length === mapSize * mapSize) {
+    if (Object.keys(cellsClicked).length === rows * columns) {
       setShowRes(true)
     }
-  }, [cellsClicked, safeCells])
+  }, [
+    cellsClicked,
+    columns,
+    rows,
+    safeCells,
+    setNumCellsClicked,
+    setShowRes,
+    setWin
+  ])
 
   return (
     <div className='board'>
       {board && (
-        <Info bombCount={bombCount} flaggedCells={flaggedCells} bombs={bombs} />
+        <Info bombCount={bombs} flaggedCells={flaggedCells} bombs={bombs} />
       )}
       {board &&
         board.map((row, index) => {

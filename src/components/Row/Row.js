@@ -8,8 +8,6 @@ const Row = ({
   handleCellClick,
   setShowRes,
   gameIsReset,
-  handleIncrease,
-  handleDecrease,
   setFlaggedCells,
   flaggedCells
 }) => {
@@ -25,8 +23,6 @@ const Row = ({
             cellClicked={handleCellClick}
             setShowRes={setShowRes}
             gameIsReset={gameIsReset}
-            handleDecrease={handleDecrease}
-            handleIncrease={handleIncrease}
             flaggedCells={flaggedCells}
             setFlaggedCells={setFlaggedCells}
           />
