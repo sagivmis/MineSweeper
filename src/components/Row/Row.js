@@ -9,7 +9,13 @@ const Row = ({
   setShowRes,
   gameIsReset,
   setFlaggedCells,
-  flaggedCells
+  flaggedCells,
+  setShouldStart,
+  setMiliseconds,
+  setCellsClicked,
+  endMineSweeperGame,
+  setEndMineSweeperGame,
+  resetCellsClickedObj
 }) => {
   return (
     <div className='row'>
@@ -25,6 +31,12 @@ const Row = ({
             gameIsReset={gameIsReset}
             flaggedCells={flaggedCells}
             setFlaggedCells={setFlaggedCells}
+            setShouldStart={setShouldStart}
+            setMiliseconds={setMiliseconds}
+            resetCellsClickedObj={resetCellsClickedObj}
+            setCellsClicked={setCellsClicked}
+            endMineSweeperGame={endMineSweeperGame}
+            setEndMineSweeperGame={setEndMineSweeperGame}
           />
         )
       })}

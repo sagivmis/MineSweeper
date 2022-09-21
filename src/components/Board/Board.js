@@ -14,12 +14,20 @@ import {
 
 import Info from "../Info/Info"
 
-const Board = ({ rows, columns, bombs }) => {
+const Board = ({
+  rows,
+  columns,
+  bombs,
+  setShouldStart,
+  setMiliseconds,
+  endMineSweeperGame,
+  setEndMineSweeperGame
+}) => {
   const [board, setBoard] = useState()
   const [cellsClicked, setCellsClicked] = useState({})
   const [safeCells, setSafeCells] = useState(rows * columns - bombs)
   const {
-    numCellsClicked: [, setNumCellsClicked],
+    numCellsClicked: [numCellsClicked, setNumCellsClicked],
     win: [, setWin],
     setShowRes
   } = useContext(globalContext)
@@ -30,9 +38,14 @@ const Board = ({ rows, columns, bombs }) => {
   const handleCellClick = (id) => {
     if (!cellsClicked[id]) {
       setCellsClicked((prev) => {
+        if (gameIsReset) return { [id]: true }
         return { ...prev, [id]: true }
       })
     }
+  }
+
+  const resetCellsClickedObj = () => {
+    setCellsClicked({})
   }
 
   const handler = () => {
@@ -55,8 +68,9 @@ const Board = ({ rows, columns, bombs }) => {
   useEffect(handler, [rows, columns, bombs, restartGame])
 
   useEffect(() => {
-    if (Object.keys(cellsClicked).length < safeCells)
+    if (Object.keys(cellsClicked).length < safeCells) {
       setNumCellsClicked(Object.keys(cellsClicked).length)
+    }
 
     if (Object.keys(cellsClicked).length === safeCells) {
       console.log("YOU WIN")
@@ -93,6 +107,12 @@ const Board = ({ rows, columns, bombs }) => {
               gameIsReset={gameIsReset}
               setFlaggedCells={setFlaggedCells}
               flaggedCells={flaggedCells}
+              setShouldStart={setShouldStart}
+              setMiliseconds={setMiliseconds}
+              resetCellsClickedObj={resetCellsClickedObj}
+              setCellsClicked={setCellsClicked}
+              endMineSweeperGame={endMineSweeperGame}
+              setEndMineSweeperGame={setEndMineSweeperGame}
             />
           )
         })}

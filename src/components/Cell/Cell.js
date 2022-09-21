@@ -1,10 +1,9 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef, useContext, useCallback } from "react"
 import { useState } from "react/cjs/react.development"
 import "./Cell.css"
 import { IoFlagSharp } from "react-icons/io5"
 import { FaBomb } from "react-icons/fa"
-
-let endMineSweeperGame = false
+import globalContext from "../../context/globalContext"
 
 const Cell = ({
   rowNumber,
@@ -14,11 +13,19 @@ const Cell = ({
   setShowRes,
   gameIsReset,
   setFlaggedCells,
-  flaggedCells
+  flaggedCells,
+  setShouldStart,
+  setMiliseconds,
+  resetCellsClickedObj,
+  setCellsClicked,
+  endMineSweeperGame,
+  setEndMineSweeperGame
 }) => {
   const [clicked, setClicked] = useState(false)
   const [flag, setFlag] = useState(false)
   const [cellClass, setCellClass] = useState("cell")
+
+  const { win } = useContext(globalContext)
 
   const handleRightClick = (e) => {
     e.preventDefault()
@@ -67,37 +74,57 @@ const Cell = ({
 
   const endGame = (target) => {
     endMineSweeperGame = true
-    target.style.backgroundColor = "black"
     const cols = target.parentElement.children.length
     const rows = target.parentElement.parentElement.children.length
-
+    const [, setWin] = win
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         if (document.getElementById(`${i}_${j}`)) {
-          if (flag && value === "*")
-            document.getElementById(`${i}_${j}`).style.backgroundColor = "green"
           document.getElementById(`${i}_${j}`).click()
         }
       }
     }
+    setWin(false)
     setShowRes(true)
   }
 
+  const resetGame = useCallback(() => {
+    setClicked(false)
+    setCellClass("cell")
+    setFlag("")
+    setFlaggedCells(0)
+    const idNumbers = cellRef.current.id.split("_")
+    cellRef.current.id = `${idNumbers[0]}_${idNumbers[1]}`
+    resetCellsClickedObj()
+    setShowRes(false)
+    setShouldStart(false)
+    setMiliseconds(0)
+    setEndMineSweeperGame(false)
+  }, [
+    resetCellsClickedObj,
+    setEndMineSweeperGame,
+    setFlaggedCells,
+    setMiliseconds,
+    setShouldStart,
+    setShowRes
+  ])
+
   useEffect(() => {
     if (gameIsReset === true) {
-      setClicked(false)
-      setCellClass("cell")
+      resetGame()
     }
-  }, [gameIsReset])
+  }, [gameIsReset, resetGame, setFlaggedCells])
 
+  const cellRef = useRef()
   return (
     <div
       id={`${rowNumber}_${columnNumber}`}
       className={cellClass}
       onClick={handleClick}
       onContextMenu={handleRightClick}
+      ref={cellRef}
     >
-      {clicked && !flag && value ? value === "*" ? <FaBomb /> : value : ""}
+      {clicked && !flag && value ? value === "*" ? <FaBomb /> : value : value}
       {flag ? <IoFlagSharp /> : ""}
     </div>
   )
