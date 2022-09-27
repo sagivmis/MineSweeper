@@ -3,7 +3,6 @@ import { useState } from "react/cjs/react.development"
 import "./Cell.css"
 import { IoFlagSharp } from "react-icons/io5"
 import { FaBomb } from "react-icons/fa"
-import globalContext from "../../context/globalContext"
 
 const Cell = ({
   rowNumber,
@@ -19,13 +18,12 @@ const Cell = ({
   resetCellsClickedObj,
   setCellsClicked,
   endMineSweeperGame,
-  setEndMineSweeperGame
+  setEndMineSweeperGame,
+  setWin
 }) => {
   const [clicked, setClicked] = useState(false)
   const [flag, setFlag] = useState(false)
   const [cellClass, setCellClass] = useState("cell")
-
-  const { win } = useContext(globalContext)
 
   const handleRightClick = (e) => {
     e.preventDefault()
@@ -76,7 +74,6 @@ const Cell = ({
     endMineSweeperGame = true
     const cols = target.parentElement.children.length
     const rows = target.parentElement.parentElement.children.length
-    const [, setWin] = win
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         if (document.getElementById(`${i}_${j}`)) {

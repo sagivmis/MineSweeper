@@ -1,16 +1,14 @@
 import "./App.css"
 import Board from "../Board/Board"
 import { useState } from "react"
-import Score from "../Score/Score"
 import Result from "../Result/Result"
-import GlobalContext from "../../context/globalContext"
-import Button from "../Button/Button"
+import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import Timer from "../Timer/Timer"
 
 function App() {
-  const numCellsClicked = useState(0)
-  const win = useState(false)
+  const [numCellsClicked, setNumCellsClicked] = useState(0)
+  const [win, setWin] = useState(false)
   const [showRes, setShowRes] = useState(false)
   const [showBoard, setShowBoard] = useState(false)
 
@@ -38,74 +36,72 @@ function App() {
 
   const isBoardSet = !!rows && !!columns && !!bombs
   return (
-    <GlobalContext.Provider
-      value={{
-        win,
-        setShowRes,
-        numCellsClicked
-      }}
-    >
-      <div className='App'>
-        {showBoard && (
-          <Timer
-            shouldStart={shouldStart}
-            setShouldStart={setShouldStart}
-            numCellsClicked={numCellsClicked[0]}
-            miliseconds={miliseconds}
-            setMiliseconds={setMiliseconds}
-          />
-        )}
-        {!showBoard && (
-          <div className='control'>
-            <div className='error-message'>{errorMessage}</div>
-            <Button
-              content={"OK"}
-              size={"small"}
-              onClick={() => {
-                if (bombs < rows * columns) {
-                  setShowBoard(isBoardSet)
-                } else {
-                  setErrorMessage("Please enter valid numbers")
-                }
-              }}
-              color='#282c34'
-            />
+    <div className='App'>
+      {showBoard && (
+        <Timer
+          shouldStart={shouldStart}
+          setShouldStart={setShouldStart}
+          numCellsClicked={numCellsClicked}
+          miliseconds={miliseconds}
+          setMiliseconds={setMiliseconds}
+        />
+      )}
+      {!showBoard && (
+        <div className='control'>
+          <div className='error-message'>{errorMessage}</div>
+          <Button
+            variant='contained'
+            className='begin-game-btn'
+            onClick={() => {
+              if (bombs < rows * columns) {
+                setShowBoard(isBoardSet)
+              } else {
+                setErrorMessage("Please enter valid numbers")
+              }
+            }}
+          >
+            OK
+          </Button>
 
-            <TextField
-              id='outlined-basic'
-              label='Columns'
-              variant='outlined'
-              onChange={handleColumnsChange}
-            />
-            <TextField
-              id='outlined-basic'
-              label='Rows'
-              variant='outlined'
-              onChange={handleRowsChange}
-            />
-            <TextField
-              id='outlined-basic'
-              label='Bombs'
-              variant='outlined'
-              onChange={handleBombsChange}
-            />
-            <h4>Please insert values:</h4>
-          </div>
-        )}
-        {showBoard && (
-          <Board
-            rows={rows}
-            columns={columns}
-            bombs={bombs}
-            setShouldStart={setShouldStart}
-            setMiliseconds={setMiliseconds}
-            endMineSweeperGame={endMineSweeperGame}
-            setEndMineSweeperGame={setEndMineSweeperGame}
+          <TextField
+            id='outlined-basic'
+            label='Columns'
+            variant='outlined'
+            onChange={handleColumnsChange}
           />
-        )}
-        {showRes && <Result />}
-      </div>
-    </GlobalContext.Provider>
+          <TextField
+            id='outlined-basic'
+            label='Rows'
+            variant='outlined'
+            onChange={handleRowsChange}
+          />
+          <TextField
+            id='outlined-basic'
+            label='Bombs'
+            variant='outlined'
+            onChange={handleBombsChange}
+          />
+          <h4>Please insert values:</h4>
+        </div>
+      )}
+      {showBoard && (
+        <Board
+          rows={rows}
+          columns={columns}
+          bombs={bombs}
+          setShouldStart={setShouldStart}
+          setMiliseconds={setMiliseconds}
+          endMineSweeperGame={endMineSweeperGame}
+          setEndMineSweeperGame={setEndMineSweeperGame}
+          numCellsClicked={numCellsClicked}
+          setNumCellsClicked={setNumCellsClicked}
+          win={win}
+          setWin={setWin}
+          setShowRes={setShowRes}
+        />
+      )}
+      {showRes && <Result win={win} />}
+    </div>
   )
 }
 

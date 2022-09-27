@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext, useCallback } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 
-import Row from "../Row/Row"
-import Button from "../Button/Button"
-import globalContext from "../../context/globalContext"
+import Cell from "../Cell/Cell"
+import Button from "@mui/material/Button"
 
 import "./Board.css"
 
@@ -12,8 +11,6 @@ import {
   valueAdjacentCount
 } from "../../helper/helper"
 
-import Info from "../Info/Info"
-
 const Board = ({
   rows,
   columns,
@@ -21,16 +18,16 @@ const Board = ({
   setShouldStart,
   setMiliseconds,
   endMineSweeperGame,
-  setEndMineSweeperGame
+  setEndMineSweeperGame,
+  numCellsClicked,
+  setNumCellsClicked,
+  win,
+  setWin,
+  setShowRes
 }) => {
   const [board, setBoard] = useState()
   const [cellsClicked, setCellsClicked] = useState({})
   const [safeCells, setSafeCells] = useState(rows * columns - bombs)
-  const {
-    numCellsClicked: [numCellsClicked, setNumCellsClicked],
-    win: [, setWin],
-    setShowRes
-  } = useContext(globalContext)
 
   const [gameIsReset, setGameIsReset] = useState(false)
   const [flaggedCells, setFlaggedCells] = useState(0)
@@ -93,37 +90,49 @@ const Board = ({
   return (
     <div className='board'>
       {board && (
-        <Info bombCount={bombs} flaggedCells={flaggedCells} bombs={bombs} />
+        <div className='info'>
+          <b>{bombs - flaggedCells}</b> bombs left !
+        </div>
       )}
       {board &&
-        board.map((row, index) => {
+        board.map((row, rowNumber) => {
           return (
-            <Row
-              key={index}
-              row={row}
-              rowNumber={index}
-              handleCellClick={handleCellClick}
-              setShowRes={setShowRes}
-              gameIsReset={gameIsReset}
-              setFlaggedCells={setFlaggedCells}
-              flaggedCells={flaggedCells}
-              setShouldStart={setShouldStart}
-              setMiliseconds={setMiliseconds}
-              resetCellsClickedObj={resetCellsClickedObj}
-              setCellsClicked={setCellsClicked}
-              endMineSweeperGame={endMineSweeperGame}
-              setEndMineSweeperGame={setEndMineSweeperGame}
-            />
+            <div className='row'>
+              {row.map((item, columnNumber) => {
+                return (
+                  <Cell
+                    key={columnNumber}
+                    rowNumber={rowNumber}
+                    columnNumber={columnNumber}
+                    value={item}
+                    cellClicked={handleCellClick}
+                    setShowRes={setShowRes}
+                    gameIsReset={gameIsReset}
+                    flaggedCells={flaggedCells}
+                    setFlaggedCells={setFlaggedCells}
+                    setShouldStart={setShouldStart}
+                    setMiliseconds={setMiliseconds}
+                    resetCellsClickedObj={resetCellsClickedObj}
+                    setCellsClicked={setCellsClicked}
+                    endMineSweeperGame={endMineSweeperGame}
+                    setEndMineSweeperGame={setEndMineSweeperGame}
+                    setWin={setWin}
+                  />
+                )
+              })}
+            </div>
           )
         })}
+
       <Button
-        content={"RESTART"}
-        size={"small"}
         onClick={() => {
           restartGame()
         }}
-        color='#282c34'
-      />
+        variant='contained'
+        className='restart-btn'
+      >
+        RESTART
+      </Button>
     </div>
   )
 }

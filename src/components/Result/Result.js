@@ -1,21 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
-import "./Result.css";
-import globalContext from "../../context/globalContext";
+import React, { useState, useEffect } from "react"
+import "./Result.css"
 
-const Result = () => {
-    const [resClass, setResClass] = useState("result");
-    const {
-        win: [win],
-    } = useContext(globalContext);
-    useEffect(() => {
-        win ? setResClass("result win") : setResClass("result lose");
-    }, []);
+const Result = ({ win }) => {
+  const [resClass, setResClass] = useState("result")
 
-    return (
-        <div className={resClass}>
-            <div className='result-text'>{win ? "YOU WIN!" : "YOU LOSE!"}</div>
-        </div>
-    );
-};
+  useEffect(() => {
+    win ? setResClass("result win") : setResClass("result lose")
+  }, [])
 
-export default Result;
+  return (
+    <div className={resClass}>
+      <div className='result-text'>{win ? "YOU WIN!" : "YOU LOSE!"}</div>
+    </div>
+  )
+}
+
+export default Result
