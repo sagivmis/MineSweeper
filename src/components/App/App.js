@@ -44,6 +44,7 @@ function App() {
           numCellsClicked={numCellsClicked}
           miliseconds={miliseconds}
           setMiliseconds={setMiliseconds}
+          win={win}
         />
       )}
       {!showBoard && (

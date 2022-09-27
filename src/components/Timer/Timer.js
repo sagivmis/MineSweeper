@@ -6,7 +6,8 @@ const Timer = ({
   setShouldStart,
   numCellsClicked,
   miliseconds,
-  setMiliseconds
+  setMiliseconds,
+  win
 }) => {
   useEffect(() => {
     if (numCellsClicked > 0) setShouldStart(true)
@@ -19,10 +20,11 @@ const Timer = ({
         setMiliseconds((prev) => prev + 1)
       }, 10)
     }
+    if (win) clearInterval(interval)
     return () => {
       clearInterval(interval)
     }
-  }, [setMiliseconds, setShouldStart, shouldStart])
+  }, [setMiliseconds, setShouldStart, shouldStart, win])
 
   const totalTime = miliseconds / 100
   let minutes = Math.floor(totalTime / 60)
